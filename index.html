@@ -20,7 +20,7 @@ body{
   perspective:1200px;
 }
 
-/* LIGHT GRADIENT ANIMATION (ambient sunlight effect) */
+/* LIGHT GRADIENT ANIMATION */
 body::before{
   content:'';
   position:absolute;
@@ -96,74 +96,87 @@ header p{
   margin-top:10px;
 }
 
-/* FILE CABINET */
-.file-cabinet{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  margin-top:80px;
-  gap:40px;
-  transform-style:preserve-3d;
-  perspective:1000px;
-  z-index:2;
+/* STACKED FILE CABINET */
+.file-stack {
+  position: relative;
+  margin-top: 100px;
+  width: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
 }
 
-/* DRAWER CARD */
-.tab{
-  background:#F8F7F4;
-  border:1.5px solid #B4B8B5;
-  border-radius:12px 12px 0 0;
-  width:240px;
-  height:160px;
-  position:relative;
-  cursor:pointer;
-  transition:all 0.4s ease;
-  box-shadow:
-    -8px 8px 20px rgba(28,28,30,0.08),
-    inset 0 -2px 4px rgba(180,184,181,0.2);
-  transform:rotateX(8deg) rotateY(-6deg) translateY(0);
+.file-tab {
+  position: absolute;
+  width: 100%;
+  height: 120px;
+  background: #F8F7F4;
+  border: 1.5px solid #B4B8B5;
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0 4px 8px rgba(28,28,30,0.05);
+  transform: 
+    translateY(calc(var(--i) * 35px)) 
+    translateX(calc((var(--i) % 2 == 0 ? -1 : 1) * 10px));
+  transition: all 0.5s ease;
+  z-index: calc(100 - var(--i));
+  cursor: pointer;
 }
-.tab::before{
-  content:attr(data-label);
-  position:absolute;
-  top:-30px;
-  left:15px;
-  background:#B4B8B5;
-  color:#1C1C1E;
-  font-weight:700;
-  font-size:13px;
-  letter-spacing:0.5px;
-  padding:6px 14px;
-  border-radius:8px 8px 0 0;
-  transition:all 0.4s ease;
-}
-.tab:hover{
-  transform:translateY(-12px) rotateX(2deg) rotateY(2deg);
-  box-shadow:0 16px 35px rgba(28,28,30,0.15);
+
+/* Alternating left-right offset for depth illusion */
+.file-tab:nth-child(odd){transform:translateY(calc(var(--i) * 35px)) translateX(-10px);}
+.file-tab:nth-child(even){transform:translateY(calc(var(--i) * 35px)) translateX(10px);}
+
+.file-tab:hover {
+  transform:translateY(calc(var(--i) * 35px - 10px)) scale(1.03) translateX(0);
+  box-shadow:0 14px 25px rgba(42,104,255,0.18);
   border-color:#2A68FF;
 }
-.tab:hover::before{
-  background:#E25D6A;
-  color:#fff;
+
+/* Click open */
+.file-tab.opening {
+  transform:translateY(calc(var(--i) * 35px - 20px)) scale(1.06) translateX(0);
+  box-shadow:0 18px 40px rgba(42,104,255,0.25);
+  border-color:#2A68FF;
 }
-.tab a{
+
+/* Highlight for returning visit */
+.file-tab.returned {
+  border-color:#2A68FF;
+  box-shadow:0 10px 25px rgba(42,104,255,0.3);
+  transform:translateY(calc(var(--i) * 35px - 8px)) scale(1.02) translateX(0);
+}
+
+/* Label styling */
+.file-tab .tab-label {
+  position:absolute;
+  top:-25px;
+  left:20px;
+  background:#B4B8B5;
+  color:#1C1C1E;
+  font-size:13px;
+  font-weight:700;
+  padding:5px 12px;
+  border-radius:8px 8px 0 0;
+  transition:background 0.3s,color 0.3s;
+}
+.file-tab:hover .tab-label{background:#E25D6A;color:#fff;}
+
+.file-tab a {
   display:flex;
-  align-items:center;
+  flex-direction:column;
   justify-content:center;
-  text-align:center;
-  height:100%;
-  padding:15px;
+  align-items:center;
   text-decoration:none;
   color:#1C1C1E;
+  height:100%;
   font-weight:600;
-  font-size:15px;
-  transition:color 0.3s;
 }
-.tab a:hover{color:#2A68FF;}
+.file-tab strong{font-size:1rem;margin-top:15px;text-align:center;}
 
 /* FOOTER */
 footer{
-  margin-top:100px;
+  margin-top:460px;
   text-align:center;
   color:#B4B8B5;
   font-size:14px;
@@ -173,12 +186,13 @@ footer{
 
 /* RESPONSIVE */
 @media(max-width:900px){
-  .tab{width:200px;height:140px;}
+  .file-stack{width:280px;}
+  .file-tab{height:110px;}
 }
 @media(max-width:600px){
   header h1{font-size:2.2rem;}
-  .file-cabinet{gap:20px;}
-  .tab{width:160px;height:120px;}
+  .file-stack{width:240px;}
+  .file-tab{height:100px;}
 }
 </style>
 </head>
@@ -196,46 +210,71 @@ footer{
   <p>A life with many tabs open.</p>
 </header>
 
-<!-- FILE CABINET SECTION -->
-<section class="file-cabinet">
-  <div class="tab" data-label="Business">
-    <a href="https://dotyourwhy.com" target="_blank">Dot Your Why</a>
+<!-- STACKED FILE DRAWER -->
+<section class="file-stack">
+  <div class="file-tab" style="--i:0;" data-name="dotyourwhy">
+    <a href="https://dotyourwhy.com" target="_blank">
+      <span class="tab-label">Business</span>
+      <strong>Dot Your Why</strong>
+    </a>
   </div>
 
-  <div class="tab" data-label="Community">
-    <a href="https://onekagiartverse.com" target="_blank">ONEKAGI ARTVRSE</a>
+  <div class="file-tab" style="--i:1;" data-name="onekagi">
+    <a href="https://onekagiartverse.com" target="_blank">
+      <span class="tab-label">Community</span>
+      <strong>ONEKAGI ARTVRSE</strong>
+    </a>
   </div>
 
-  <div class="tab" data-label="Education">
-    <a href="https://mayarutledge.com/education" target="_blank">Arts Educator</a>
+  <div class="file-tab" style="--i:2;" data-name="education">
+    <a href="https://mayarutledge.com/education" target="_blank">
+      <span class="tab-label">Education</span>
+      <strong>Arts Educator</strong>
+    </a>
   </div>
 
-  <div class="tab" data-label="Film">
-    <a href="https://mayarutledge.com/film" target="_blank">Film Producer</a>
+  <div class="file-tab" style="--i:3;" data-name="film">
+    <a href="https://mayarutledge.com/film" target="_blank">
+      <span class="tab-label">Film</span>
+      <strong>Film Producer</strong>
+    </a>
   </div>
 
-  <div class="tab" data-label="Content">
-    <a href="https://mayarutledge.com/content" target="_blank">Content Creator</a>
+  <div class="file-tab" style="--i:4;" data-name="content">
+    <a href="https://mayarutledge.com/content" target="_blank">
+      <span class="tab-label">Content</span>
+      <strong>Content Creator</strong>
+    </a>
   </div>
 
-  <div class="tab" data-label="Music">
-    <a href="https://open.spotify.com/artist/mayana" target="_blank">Maya-na</a>
+  <div class="file-tab" style="--i:5;" data-name="music">
+    <a href="https://open.spotify.com/artist/mayana" target="_blank">
+      <span class="tab-label">Music</span>
+      <strong>Maya-na</strong>
+    </a>
   </div>
 
-  <div class="tab" data-label="Professional">
-    <a href="https://linkedin.com/in/mayarutledge" target="_blank">LinkedIn</a>
+  <div class="file-tab" style="--i:6;" data-name="linkedin">
+    <a href="https://linkedin.com/in/mayarutledge" target="_blank">
+      <span class="tab-label">Professional</span>
+      <strong>LinkedIn</strong>
+    </a>
   </div>
 
-  <div class="tab" data-label="Contact">
-    <a href="mailto:maya@dotyourwhy.com">Email Me</a>
+  <div class="file-tab" style="--i:7;" data-name="contact">
+    <a href="mailto:maya@dotyourwhy.com">
+      <span class="tab-label">Contact</span>
+      <strong>Email Me</strong>
+    </a>
   </div>
 </section>
 
 <footer>© 2025 Maya Rutledge · All rights reserved</footer>
 
-<!-- PARTICLE SCRIPT -->
+<!-- PARTICLE SCRIPT + CLICK ANIMATION -->
 <script>
-const particleContainer = document.querySelector('.particles');
+// particles
+const particleContainer=document.querySelector('.particles');
 for(let i=0;i<25;i++){
   const p=document.createElement('div');
   p.classList.add('particle');
@@ -244,6 +283,28 @@ for(let i=0;i<25;i++){
   p.style.animationDuration=10+Math.random()*10+'s';
   p.style.animationDelay=Math.random()*5+'s';
   particleContainer.appendChild(p);
+}
+
+// click animation + memory
+document.querySelectorAll('.file-tab').forEach(tab=>{
+  tab.addEventListener('click',e=>{
+    e.preventDefault();
+    const link=tab.querySelector('a').getAttribute('href');
+    const tabName=tab.dataset.name;
+    sessionStorage.setItem('lastOpenedTab',tabName);
+    tab.classList.add('opening');
+    setTimeout(()=>{window.open(link,'_blank');tab.classList.remove('opening');},350);
+  });
+});
+
+// highlight returning tab
+const lastTab=sessionStorage.getItem('lastOpenedTab');
+if(lastTab){
+  const tab=document.querySelector(`.file-tab[data-name="${lastTab}"]`);
+  if(tab){
+    tab.classList.add('returned');
+    setTimeout(()=>tab.classList.remove('returned'),5000);
+  }
 }
 </script>
 
