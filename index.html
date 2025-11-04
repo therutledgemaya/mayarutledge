@@ -3,218 +3,182 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maya Rutledge – Cinematic Creative Desk</title>
+<title>Maya Rutledge — Cinematic Desk</title>
 <style>
-/* RESET */
-*{margin:0;padding:0;box-sizing:border-box;}
-body{
-  background:linear-gradient(135deg,#1C1C1E,#2A2A2C);
-  color:#F8F7F4;
-  font-family:'Lato',sans-serif;
-  overflow-x:hidden;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-}
+  /* RESET */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-/* BACKGROUND LIGHTS */
-.spotlight{
-  position:fixed;
-  top:0;left:0;
-  width:100vw;height:100vh;
-  background:radial-gradient(circle at 50% 50%,rgba(255,255,255,0.08),rgba(0,0,0,0) 70%);
-  pointer-events:none;
-  mix-blend-mode:soft-light;
-  z-index:-1;
-  transition:background-position 0.2s ease-out;
-}
-.aura{
-  position:fixed;
-  top:0;left:0;width:100%;height:100%;
-  background:linear-gradient(120deg,rgba(42,104,255,0.05),rgba(226,93,106,0.07));
-  background-size:200% 200%;
-  animation:auraShift 12s ease-in-out infinite alternate;
-  z-index:-2;
-}
-@keyframes auraShift{
-  from{background-position:0% 50%;}
-  to{background-position:100% 50%;}
-}
+  body {
+    background: url('YOUR-BACKGROUND-IMAGE-URL-HERE') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Lato', sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
 
-/* TITLE */
-header{text-align:center;margin-bottom:40px;}
-header h1{
-  font-size:3rem;
-  letter-spacing:2px;
-  color:#F8F7F4;
-  text-shadow:0 0 15px rgba(42,104,255,0.25);
-}
-header p{font-size:1.2rem;color:#B4B8B5;}
+  /* LIGHT OVERLAY (subtle brand hue wash) */
+  body::after {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at 30% 20%, rgba(42,104,255,0.08), rgba(226,93,106,0.05), transparent 70%);
+    mix-blend-mode: soft-light;
+    pointer-events: none;
+  }
 
-/* POLAROID GRID */
-.desk{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:40px;
-  width:90%;
-  max-width:1200px;
-  z-index:2;
-}
+  .container {
+    position: relative;
+    width: 80vw;
+    max-width: 900px;
+    height: 90vh;
+  }
 
-/* POLAROID CARDS */
-.polaroid{
-  width:220px;height:260px;
-  background:#F8F7F4;
-  border:1px solid #B4B8B5;
-  border-radius:6px;
-  box-shadow:0 6px 15px rgba(28,28,30,0.4);
-  transform:rotate(var(--tilt));
-  transition:transform 0.5s ease, box-shadow 0.5s ease, filter 0.4s ease;
-  cursor:pointer;
-  position:relative;
-  animation:drift 7s ease-in-out infinite;
-  animation-delay:calc(var(--delay) * 1s);
-}
-.polaroid img{
-  width:100%;height:80%;
-  object-fit:cover;
-  border-bottom:10px solid #F8F7F4;
-  border-top-left-radius:6px;
-  border-top-right-radius:6px;
-}
-.polaroid strong{
-  display:block;text-align:center;
-  font-size:1rem;
-  padding-top:8px;
-  color:#1C1C1E;
-  font-weight:700;
-}
-.polaroid:hover{
-  transform:rotate(0deg) scale(1.06) translateY(-10px);
-  box-shadow:0 18px 40px rgba(42,104,255,0.35);
-  filter:drop-shadow(0 0 8px rgba(226,93,106,0.3));
-  border-color:#2A68FF;
-}
-.polaroid:hover strong{color:#2A68FF;}
-@keyframes drift{
-  0%{transform:rotate(var(--tilt)) translateY(0);}
-  50%{transform:rotate(calc(var(--tilt) + 1deg)) translateY(3px);}
-  100%{transform:rotate(var(--tilt)) translateY(0);}
-}
+  .polaroid {
+    position: absolute;
+    width: 200px;
+    background: #F8F7F4;
+    padding: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    border-radius: 3px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
 
-/* SOUND BUTTON */
-#soundButton{
-  position:fixed;
-  bottom:40px;
-  right:40px;
-  background:rgba(42,104,255,0.15);
-  color:#F8F7F4;
-  border:1px solid rgba(42,104,255,0.4);
-  padding:10px 20px;
-  border-radius:30px;
-  font-size:14px;
-  letter-spacing:1px;
-  cursor:pointer;
-  transition:all 0.4s ease;
-  z-index:10;
-  backdrop-filter:blur(6px);
-}
-#soundButton:hover{
-  background:#2A68FF;
-  border-color:#E25D6A;
-  box-shadow:0 0 20px rgba(226,93,106,0.3);
-}
+  .polaroid:hover {
+    transform: translateY(-10px) rotate(0deg) scale(1.03);
+    box-shadow: 0 18px 30px rgba(0,0,0,0.35);
+  }
 
-/* RESPONSIVE */
-@media(max-width:768px){
-  .polaroid{width:180px;height:220px;}
-  header h1{font-size:2.2rem;}
-  #soundButton{bottom:20px;right:20px;padding:8px 16px;}
-}
+  .polaroid img {
+    width: 100%;
+    display: block;
+    border-radius: 2px;
+  }
+
+  /* POLAROID POSITIONS — replicate exact natural spread */
+  .p1 { top: 20%; left: 10%; transform: rotate(-8deg); }
+  .p2 { top: 10%; left: 45%; transform: rotate(5deg); }
+  .p3 { top: 35%; left: 25%; transform: rotate(-3deg); }
+  .p4 { top: 55%; left: 60%; transform: rotate(6deg); }
+  .p5 { top: 45%; left: 75%; transform: rotate(10deg); }
+
+  /* CAPTION UNDER POLAROID (optional titles) */
+  .caption {
+    text-align: center;
+    font-size: 14px;
+    color: #1C1C1E;
+    margin-top: 5px;
+  }
+
+  /* SOUND ICON */
+  .soundscape {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: rgba(248,247,244,0.9);
+    border: 1px solid rgba(28,28,30,0.1);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .soundscape:hover {
+    background: #E25D6A;
+    color: white;
+  }
+
+  .soundscape svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* LINK & CONTACT SECTION */
+  .links {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    color: #1C1C1E;
+    font-size: 15px;
+  }
+
+  .links a {
+    color: #2A68FF;
+    text-decoration: none;
+    margin-right: 12px;
+  }
+
+  .links a:hover {
+    text-decoration: underline;
+  }
+
 </style>
 </head>
+
 <body>
 
-<div class="aura"></div>
-<div class="spotlight" id="spotlight"></div>
+  <div class="container">
+    <a href="https://dotyourwhy.com" class="polaroid p1">
+      <img src="YOUR-PHOTO1-URL" alt="Dot Your Why">
+      <div class="caption">Business</div>
+    </a>
 
-<header>
-  <h1>Maya Rutledge</h1>
-  <p>Cinematic Creative Educator · Storyteller · Visionary</p>
-</header>
+    <a href="https://onekagi.com" class="polaroid p2">
+      <img src="YOUR-PHOTO2-URL" alt="ONEKAGI ARTVRSE">
+      <div class="caption">Community</div>
+    </a>
 
-<section class="desk">
-  <div class="polaroid" style="--tilt:-5deg;--delay:0.2;" onclick="openLink('https://dotyourwhy.com')">
-    <img src="https://YOUR-SHOPIFY-IMAGE-LINK1.png" alt="Dot Your Why">
-    <strong>Dot Your Why</strong>
+    <a href="https://yourfilmportfolio.com" class="polaroid p3">
+      <img src="YOUR-PHOTO3-URL" alt="Film">
+      <div class="caption">Film</div>
+    </a>
+
+    <a href="https://maya-na.com" class="polaroid p4">
+      <img src="YOUR-PHOTO4-URL" alt="Maya-na">
+      <div class="caption">Music</div>
+    </a>
+
+    <a href="https://arteducator.maya.com" class="polaroid p5">
+      <img src="YOUR-PHOTO5-URL" alt="Arts Educator">
+      <div class="caption">Art Educator</div>
+    </a>
   </div>
 
-  <div class="polaroid" style="--tilt:6deg;--delay:1.0;" onclick="openLink('https://onekagiartverse.com')">
-    <img src="https://YOUR-SHOPIFY-IMAGE-LINK2.png" alt="ONEKAGI ARTVRSE">
-    <strong>ONEKAGI ARTVRSE</strong>
+  <!-- Soundscape Button -->
+  <div class="soundscape" onclick="playSound()">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 19V5l12 7-12 7z"/>
+    </svg>
   </div>
 
-  <div class="polaroid" style="--tilt:-8deg;--delay:0.6;" onclick="openLink('https://mayarutledge.com/film')">
-    <img src="https://YOUR-SHOPIFY-IMAGE-LINK3.png" alt="Film Producer">
-    <strong>Film Producer</strong>
+  <!-- Sound -->
+  <audio id="sound" src="YOUR-SOUNDSCAPE-FILE.mp3"></audio>
+
+  <div class="links">
+    <a href="https://linkedin.com/in/mayarutledge">LinkedIn</a>
+    <a href="mailto:hello@mayarutledge.com">Contact</a>
   </div>
-
-  <div class="polaroid" style="--tilt:4deg;--delay:0.8;" onclick="openLink('https://mayarutledge.com/education')">
-    <img src="https://YOUR-SHOPIFY-IMAGE-LINK4.png" alt="Arts Educator">
-    <strong>Arts Educator</strong>
-  </div>
-
-  <div class="polaroid" style="--tilt:-3deg;--delay:1.4;" onclick="openLink('https://open.spotify.com/artist/mayana')">
-    <img src="https://YOUR-SHOPIFY-IMAGE-LINK5.png" alt="Maya-na">
-    <strong>Maya-na (Music)</strong>
-  </div>
-
-  <div class="polaroid" style="--tilt:7deg;--delay:1.6;" onclick="openLink('https://linkedin.com/in/mayarutledge')">
-    <img src="https://YOUR-SHOPIFY-IMAGE-LINK6.png" alt="LinkedIn">
-    <strong>Professional</strong>
-  </div>
-
-  <div class="polaroid" style="--tilt:-5deg;--delay:2.0;" onclick="openLink('mailto:maya@dotyourwhy.com')">
-    <img src="https://YOUR-SHOPIFY-IMAGE-LINK7.png" alt="Contact">
-    <strong>Contact</strong>
-  </div>
-</section>
-
-<button id="soundButton">🔊 Enter Soundscape</button>
-
-<audio id="soundscape" src="https://YOUR-SHOPIFY-OR-GITHUB-LINK/soundscape.mp3" preload="auto"></audio>
 
 <script>
-/* Spotlight motion */
-const spotlight=document.getElementById('spotlight');
-document.addEventListener('mousemove',e=>{
-  const x=(e.clientX/window.innerWidth)*100;
-  const y=(e.clientY/window.innerHeight)*100;
-  spotlight.style.background=`radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.12), rgba(0,0,0,0) 70%)`;
-});
-
-/* Link opener */
-function openLink(url){window.open(url,'_blank');}
-
-/* Soundscape logic */
-const soundBtn=document.getElementById('soundButton');
-const audio=document.getElementById('soundscape');
-let hasPlayed=false;
-soundBtn.addEventListener('click',()=>{
-  if(!hasPlayed){
-    audio.volume=0.6;
-    audio.play();
-    hasPlayed=true;
-    soundBtn.innerText='🎧 Playing...';
-    setTimeout(()=>{soundBtn.style.opacity='0';},4000);
-  }
-});
+function playSound() {
+  const sound = document.getElementById('sound');
+  sound.play();
+}
 </script>
 
 </body>
 </html>
+
 
