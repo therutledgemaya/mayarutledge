@@ -1,357 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>dot you why – Digital Consulting</title>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maya Rutledge</title>
 <style>
 /* RESET */
 *{margin:0;padding:0;box-sizing:border-box;}
 body{
-  font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
-  color:#333;
+  font-family:'Lato',sans-serif;
+  background:#F8F7F4;
+  color:#1C1C1E;
   overflow-x:hidden;
-}
-
-/* ---------------------------------------
-   HERO SECTION (FILE-CABINET BACKGROUND)
------------------------------------------*/
-.hero-section{
-  position:relative;
-  background:#0d9488;
-  background:linear-gradient(135deg,#0d9488 0%,#14b8a6 100%);
-  min-height:100vh;
   display:flex;
   flex-direction:column;
-  justify-content:flex-start;
-  border-bottom-left-radius:90px;
-  border-bottom-right-radius:90px;
-  overflow:hidden;
-  box-shadow:0 10px 30px rgba(0,0,0,0.1);
+  align-items:center;
+  min-height:100vh;
+  position:relative;
+  perspective:1200px;
 }
 
-/* NAVIGATION */
-.navbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:25px 80px;
-  background:#fff;
-  border-radius:0 0 60px 60px;
-  margin:0 40px;
-  z-index:3;
-}
-.logo{
-  display:flex;
-  align-items:center;
-  font-size:24px;
-  font-weight:700;
-  color:#0d9488;
-}
-.logo-icon{
-  width:28px;height:28px;
-  background:#0d9488;
-  margin-right:10px;
-  border-radius:6px;
-}
-.nav-menu{
-  list-style:none;
-  display:flex;
-  gap:35px;
-}
-.nav-menu a{
-  text-decoration:none;
-  color:#333;
-  font-weight:500;
-  transition:color .3s;
-}
-.nav-menu a:hover,
-.nav-menu a.active{color:#0d9488;}
-.nav-menu a.active::after{
+/* LIGHT GRADIENT ANIMATION (ambient sunlight effect) */
+body::before{
   content:'';
   position:absolute;
-  bottom:-6px;
-  left:50%;
-  transform:translateX(-50%);
-  width:6px;height:6px;
-  background:#0d9488;border-radius:50%;
+  top:0;left:0;width:100%;height:100%;
+  background:linear-gradient(120deg,rgba(42,104,255,0.05) 0%,rgba(226,93,106,0.05) 100%);
+  animation:lightmove 10s ease-in-out infinite alternate;
+  z-index:0;
 }
-.cta-button{
-  background:linear-gradient(135deg,#ff6b35 0%,#ff8c61 100%);
-  color:#fff;
-  padding:12px 28px;
-  border-radius:25px;
-  text-decoration:none;
-  font-weight:600;
-  transition:transform .3s,box-shadow .3s;
+@keyframes lightmove{
+  from{transform:translateX(-10%) translateY(0);}
+  to{transform:translateX(10%) translateY(5%);}
 }
-.cta-button:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(255,107,53,0.3);}
 
-/* HERO CONTENT */
-.hero-content{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:80px 80px 40px;
-  flex:1;
+/* FLOATING PARTICLES */
+.particles{
+  position:fixed;
+  top:0;left:0;width:100%;height:100%;
+  pointer-events:none;
+  z-index:1;
+  overflow:hidden;
+}
+.particle{
+  position:absolute;
+  background:rgba(28,28,30,0.08);
+  border-radius:50%;
+  animation:float 12s linear infinite;
+}
+@keyframes float{
+  from{transform:translateY(100vh) scale(0.5);opacity:0;}
+  50%{opacity:1;}
+  to{transform:translateY(-10vh) scale(1);opacity:0;}
+}
+
+/* HERO */
+header{
+  text-align:center;
+  margin-top:100px;
+  z-index:2;
   position:relative;
 }
-.hero-text{
-  color:#fff;
-  max-width:580px;
-  flex:1;
-}
-.hero-text h1{
-  font-size:68px;
-  font-weight:800;
-  line-height:1.1;
-  margin-bottom:30px;
-}
-.hero-text .highlight{
-  background:#fff;
-  color:#0d9488;
-  padding:6px 18px;
-  border-radius:5px;
-  display:inline-block;
-}
-.hero-text p{
-  font-size:18px;
-  line-height:1.6;
-  opacity:.95;
-  margin-bottom:40px;
-}
-.work-button{
-  background:linear-gradient(135deg,#ff6b35 0%,#ff8c61 100%);
-  color:#fff;
-  padding:18px 45px;
-  border-radius:30px;
-  font-weight:600;
-  text-decoration:none;
-  font-size:18px;
-  transition:transform .3s,box-shadow .3s;
-}
-.work-button:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(255,107,53,0.4);}
 
-/* HERO IMAGE */
+/* PORTRAIT */
 .hero-image{
-  flex:1;
-  display:flex;
-  justify-content:center;
-  align-items:center;
   position:relative;
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  overflow:hidden;
+  margin:0 auto 20px auto;
+  box-shadow:0 0 30px rgba(42,104,255,0.25);
+  animation:floatPortrait 6s ease-in-out infinite alternate;
+  z-index:3;
 }
 .hero-image img{
-  max-width:520px;
-  height:auto;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:brightness(1.05) contrast(1.05);
+}
+@keyframes floatPortrait{
+  from{transform:translateY(0) rotateX(2deg);}
+  to{transform:translateY(-10px) rotateX(-2deg);}
+}
+
+header h1{
+  font-size:3.2rem;
+  font-weight:800;
+  color:#1C1C1E;
+}
+header p{
+  font-size:1.2rem;
+  color:#2A68FF;
+  margin-top:10px;
+}
+
+/* FILE CABINET */
+.file-cabinet{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin-top:80px;
+  gap:40px;
+  transform-style:preserve-3d;
+  perspective:1000px;
   z-index:2;
 }
 
-/* BACKGROUND OVERLAY SHAPE UNDER WOMAN */
-.hero-section::after{
-  content:'';
-  position:absolute;
-  bottom:-1px;
-  left:0;
-  width:100%;
-  height:60px;
-  background:#fff;
-  border-top-left-radius:90px;
-  border-top-right-radius:90px;
-}
-
-/* VERTICAL TEXT */
-.vertical-text{
-  position:absolute;
-  right:90px;
-  top:50%;
-  transform:translateY(-50%) rotate(-90deg);
-  font-size:120px;
-  font-weight:900;
-  color:rgba(255,255,255,0.1);
-  letter-spacing:10px;
-  z-index:0;
-}
-
-/* TESTIMONIAL */
-.testimonial{
-  position:absolute;
-  bottom:150px;
-  left:80px;
-  max-width:420px;
-  color:#fff;
-  padding-left:30px;
-  border-left:3px solid rgba(255,255,255,0.5);
-  z-index:3;
-}
-.testimonial p{font-style:italic;font-size:14px;line-height:1.6;}
-
-/* SCROLL INDICATOR */
-.scroll-indicator{
-  position:absolute;
-  bottom:30px;
-  left:80px;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:14px;
-}
-.scroll-icon{
-  width:30px;height:50px;
-  border:2px solid #fff;
-  border-radius:20px;
+/* DRAWER CARD */
+.tab{
+  background:#F8F7F4;
+  border:1.5px solid #B4B8B5;
+  border-radius:12px 12px 0 0;
+  width:240px;
+  height:160px;
   position:relative;
+  cursor:pointer;
+  transition:all 0.4s ease;
+  box-shadow:
+    -8px 8px 20px rgba(28,28,30,0.08),
+    inset 0 -2px 4px rgba(180,184,181,0.2);
+  transform:rotateX(8deg) rotateY(-6deg) translateY(0);
 }
-.scroll-icon::before{
-  content:'';
+.tab::before{
+  content:attr(data-label);
   position:absolute;
-  top:8px;left:50%;
-  transform:translateX(-50%);
-  width:4px;height:8px;
-  background:#fff;
-  border-radius:2px;
-  animation:scroll 2s infinite;
-}
-@keyframes scroll{0%,100%{opacity:1;top:8px;}50%{opacity:.5;top:20px;}}
-
-/* ABOUT SECTION (same as your current) */
-.about-section{padding:100px 80px;background:#fff;}
-.about-container{display:flex;gap:60px;align-items:center;}
-.about-images{flex:1;display:grid;grid-template-columns:repeat(2,1fr);gap:20px;position:relative;}
-.about-image{border-radius:20px;overflow:hidden;}
-.about-image img{width:100%;height:100%;object-fit:cover;}
-.about-image:nth-child(2){grid-row:1/3;grid-column:2;}
-.experience-badge{
-  position:absolute;
-  bottom:20px;left:50%;transform:translateX(-50%);
-  background:linear-gradient(135deg,#0d9488 0%,#14b8a6 100%);
-  color:#fff;
-  padding:30px 40px;
-  border-radius:20px;
-  text-align:center;
-  box-shadow:0 10px 30px rgba(13,148,136,0.3);
-}
-.experience-badge .number{font-size:48px;font-weight:900;display:block;}
-.experience-badge .text{font-size:16px;font-weight:600;margin-top:5px;}
-.about-content{flex:1;}
-.section-label{
-  color:#0d9488;
-  font-size:14px;
+  top:-30px;
+  left:15px;
+  background:#B4B8B5;
+  color:#1C1C1E;
   font-weight:700;
-  text-transform:uppercase;
-  letter-spacing:2px;
-  margin-bottom:20px;
+  font-size:13px;
+  letter-spacing:0.5px;
+  padding:6px 14px;
+  border-radius:8px 8px 0 0;
+  transition:all 0.4s ease;
+}
+.tab:hover{
+  transform:translateY(-12px) rotateX(2deg) rotateY(2deg);
+  box-shadow:0 16px 35px rgba(28,28,30,0.15);
+  border-color:#2A68FF;
+}
+.tab:hover::before{
+  background:#E25D6A;
+  color:#fff;
+}
+.tab a{
   display:flex;
   align-items:center;
-  gap:15px;
-}
-.section-label::before{content:'';width:40px;height:2px;background:#0d9488;}
-.about-content h2{font-size:48px;font-weight:800;color:#1a1a2e;line-height:1.2;margin-bottom:30px;}
-.about-content p{font-size:16px;line-height:1.8;color:#666;margin-bottom:20px;}
-.read-more-button{
-  background:linear-gradient(135deg,#ff6b35 0%,#ff8c61 100%);
-  color:#fff;
-  padding:15px 40px;
-  border-radius:25px;
+  justify-content:center;
+  text-align:center;
+  height:100%;
+  padding:15px;
   text-decoration:none;
+  color:#1C1C1E;
   font-weight:600;
-  display:inline-block;
-  margin-top:20px;
-  transition:transform .3s,box-shadow .3s;
+  font-size:15px;
+  transition:color 0.3s;
 }
-.read-more-button:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(255,107,53,0.3);}
-.vertical-text-about{
-  position:absolute;
-  right:80px;top:50%;
-  transform:translateY(-50%) rotate(-90deg);
-  font-size:120px;font-weight:900;
-  color:rgba(13,148,136,0.05);
-  letter-spacing:10px;
+.tab a:hover{color:#2A68FF;}
+
+/* FOOTER */
+footer{
+  margin-top:100px;
+  text-align:center;
+  color:#B4B8B5;
+  font-size:14px;
+  opacity:0.8;
+  z-index:2;
 }
 
 /* RESPONSIVE */
-@media(max-width:1200px){
-  .hero-text h1{font-size:56px;}
-  .vertical-text{font-size:80px;}
+@media(max-width:900px){
+  .tab{width:200px;height:140px;}
 }
-@media(max-width:968px){
-  .navbar{padding:20px 40px;margin:0 20px;}
-  .hero-content{flex-direction:column;text-align:center;padding:60px 40px;}
-  .hero-image img{width:80%;margin-top:30px;}
-  .vertical-text{display:none;}
-}
-@media(max-width:640px){
-  .hero-text h1{font-size:38px;}
-  .about-content h2{font-size:32px;}
-  .about-container{flex-direction:column;}
-  .about-images{grid-template-columns:1fr;}
+@media(max-width:600px){
+  header h1{font-size:2.2rem;}
+  .file-cabinet{gap:20px;}
+  .tab{width:160px;height:120px;}
 }
 </style>
 </head>
-
 <body>
 
-<!-- HERO -->
-<section class="hero-section">
-  <nav class="navbar">
-    <div class="logo"><div class="logo-icon"></div>dot you why</div>
-    <ul class="nav-menu">
-      <li><a href="#" class="active">Home</a></li>
-      <li><a href="#about">About Us</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#blog">Blog</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <a href="#contact" class="cta-button">Let's Talk</a>
-  </nav>
+<!-- Floating Dust Particles -->
+<div class="particles"></div>
 
-  <div class="hero-content">
-    <div class="hero-text">
-      <h1>Clever Investing<br>make Money <span class="highlight">Grow</span></h1>
-      <p>What we can do for your business like freestyle digital products.
-         Strategic consulting that helps you understand the "why" behind your digital presence.</p>
-      <a href="#contact" class="work-button">Work With Us</a>
-    </div>
+<!-- HERO WITH PORTRAIT -->
+<header>
+  <div class="hero-image">
+    <img src="https://YOUR-SHOPIFY-IMAGE-LINK.png" alt="Maya Rutledge portrait">
+  </div>
+  <h1>Maya Rutledge</h1>
+  <p>A life with many tabs open.</p>
+</header>
 
-    <div class="hero-image">
-      <img src="https://cdn.shopify.com/s/files/1/0553/4672/4936/files/proLinkedinHeadshot2022_copy-Recovered.png?v=1762225312" alt="Professional Consultant" />
-    </div>
+<!-- FILE CABINET SECTION -->
+<section class="file-cabinet">
+  <div class="tab" data-label="Business">
+    <a href="https://dotyourwhy.com" target="_blank">Dot Your Why</a>
   </div>
 
-  <div class="vertical-text">CONSULT</div>
-
-  <div class="testimonial">
-    <p>"I consider dot you why as having unprecedented integrity within this industry
-       in terms of reference checking and honest feedback about candidates."</p>
+  <div class="tab" data-label="Community">
+    <a href="https://onekagiartverse.com" target="_blank">ONEKAGI ARTVRSE</a>
   </div>
 
-  <div class="scroll-indicator">
-    <div class="scroll-icon"></div>
-    <div><div>Scroll down</div><div>to discover more</div></div>
+  <div class="tab" data-label="Education">
+    <a href="https://mayarutledge.com/education" target="_blank">Arts Educator</a>
+  </div>
+
+  <div class="tab" data-label="Film">
+    <a href="https://mayarutledge.com/film" target="_blank">Film Producer</a>
+  </div>
+
+  <div class="tab" data-label="Content">
+    <a href="https://mayarutledge.com/content" target="_blank">Content Creator</a>
+  </div>
+
+  <div class="tab" data-label="Music">
+    <a href="https://open.spotify.com/artist/mayana" target="_blank">Maya-na</a>
+  </div>
+
+  <div class="tab" data-label="Professional">
+    <a href="https://linkedin.com/in/mayarutledge" target="_blank">LinkedIn</a>
+  </div>
+
+  <div class="tab" data-label="Contact">
+    <a href="mailto:maya@dotyourwhy.com">Email Me</a>
   </div>
 </section>
 
-<!-- ABOUT -->
-<section class="about-section" id="about">
-  <div class="about-container">
-    <div class="about-images">
-      <div class="about-image"><img src="team-1.jpg" alt="Team Member 1"></div>
-      <div class="about-image"><img src="team-2.jpg" alt="Team Member 2"></div>
-      <div class="about-image"><img src="team-3.jpg" alt="Team Member 3"></div>
-      <div class="experience-badge"><span class="number">8+</span><span class="text">Years<br>Experience</span></div>
-    </div>
+<footer>© 2025 Maya Rutledge · All rights reserved</footer>
 
-    <div class="about-content">
-      <div class="section-label">ABOUT DOT YOU WHY</div>
-      <h2>Leading Digital<br>Consulting Company</h2>
-      <p>Digital strategy and web consulting services such as domain strategy, UX/UI design, and brand alignment with online presence.</p>
-      <p>We are proud to offer a comprehensive range of digital consulting services including domain strategy, website development, brand consulting, and strategic positioning that helps you understand the "why" behind every digital decision.</p>
-      <a href="#services" class="read-more-button">Read More</a>
-    </div>
-  </div>
-  <div class="vertical-text-about">CONSULT</div>
-</section>
+<!-- PARTICLE SCRIPT -->
+<script>
+const particleContainer = document.querySelector('.particles');
+for(let i=0;i<25;i++){
+  const p=document.createElement('div');
+  p.classList.add('particle');
+  p.style.width=p.style.height=Math.random()*4+2+'px';
+  p.style.left=Math.random()*100+'%';
+  p.style.animationDuration=10+Math.random()*10+'s';
+  p.style.animationDelay=Math.random()*5+'s';
+  particleContainer.appendChild(p);
+}
+</script>
 
 </body>
 </html>
